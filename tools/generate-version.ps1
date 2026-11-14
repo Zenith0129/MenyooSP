@@ -59,7 +59,7 @@ function Get-VersionTag {
     }
 
     if ($reachableTags.Count -eq 0) {
-        throw 'No reachable Git tag matching v<major>.<minor>.<patch>[-prerelease] was found.'
+        return [pscustomobject]@{ Tag = 'v0.0.0'; Version = '0.0.0-fork'; Commit = ''; Height = 0 }
     }
 
     return $reachableTags | Sort-Object Height, Tag | Select-Object -First 1

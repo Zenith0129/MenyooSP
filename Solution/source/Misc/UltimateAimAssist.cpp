@@ -133,14 +133,14 @@ namespace UltimateTrainer
 					const float a = static_cast<float>(i) * static_cast<float>(2.0 * kPi) / static_cast<float>(kPoints);
 					const float x = 0.5f + (fov * std::cos(a)) / aspect;
 					const float y = 0.5f + fov * std::sin(a);
-					DRAW_RECT(x, y, s / aspect, s, 255, 255, 255, 140);
+					DRAW_RECT(x, y, s / aspect, s, 255, 255, 255, 140, 0);
 				}
 			}
 
 			void DrawTargetMarker(float sx, float sy, float aspect)
 			{
 				const float s = 0.008f;
-				DRAW_RECT(sx, sy, s / aspect, s, 255, 60, 60, 220);
+				DRAW_RECT(sx, sy, s / aspect, s, 255, 60, 60, 220, 0);
 			}
 		}
 

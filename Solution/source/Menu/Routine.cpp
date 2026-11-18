@@ -44,6 +44,8 @@
 
 #include "..\Misc\FlameThrower.h"
 #include "..\Misc\FpsCounter.h"
+#include "..\Misc\UltimateMemMonitor.h"
+#include "..\Misc\UltimateAimAssist.h"
 #include "..\Misc\FreeCam.h"
 #include "..\Misc\Gta2Cam.h"
 #include "..\Misc\JumpAroundMode.h"
@@ -103,7 +105,7 @@ bool defaultPedSet = false;
 
 void Menu::justopened()
 {
-	Game::Print::PrintBottomLeft(oss_ << "Menyoo PC v" << MENYOO_CURRENT_VER_ << " by ItsJustCurtis and MAFINS");
+	Game::Print::PrintBottomLeft(oss_ << "Ultimate Trainer (based on Menyoo PC v" << MENYOO_CURRENT_VER_ << " by ItsJustCurtis and MAFINS)");
 
 	Menu::RequestMenuTextures();
 
@@ -1895,6 +1897,41 @@ void DrawGameInfo()
 		Game::Print::drawfloat(value, decimals, hudX, hudY);
 		hudY += HUD_LINE_HEIGHT;
 	};
+
+	// Ultimate Trainer: memory monitor (HUD lines and warnings)
+	UltimateTrainer::MemMonitor::Tick();
+	UltimateTrainer::AimAssist::Tick();
+	{
+		using namespace UltimateTrainer::MemMonitor;
+		static Level s_prevLevel = Level::Normal;
+		const Level lvl = GetLevel();
+
+		RGBA lvlCol = { 255, 255, 255, 255 };
+		if (lvl == Level::Caution) lvlCol = { 255, 220, 60, 255 };
+		else if (lvl == Level::Danger) lvlCol = { 255, 140, 0, 255 };
+		else if (lvl == Level::Emergency) lvlCol = { 255, 50, 50, 255 };
+
+		if (bDisplay)
+		{
+			drawText(std::string("GTA V: ") + GetProcessText(), lvlCol);
+			drawText(std::string("RAM free: ") + GetSystemText(), lvlCol);
+			drawText(std::string("Growth: ") + GetGrowthText() + "  [" + GetLevelName() + "]", lvlCol);
+			hudY += HUD_LINE_HEIGHT / 2;
+		}
+
+		if (bWarnings)
+		{
+			if (lvl == Level::Caution && s_prevLevel == Level::Normal)
+				Game::Print::PrintBottomCentre(std::string("Memory: Caution"), 3000);
+
+			if (lvl == Level::Danger || lvl == Level::Emergency)
+			{
+				Game::Print::SetupDraw(font_hud, Vector2(0.7f, 0.7f), true, false, true, lvlCol, Vector2(0.0f, 1.0f));
+				Game::Print::drawstring(lvl == Level::Emergency ? "MEMORY EMERGENCY" : "MEMORY DANGER", 0.5f, 0.30f);
+			}
+		}
+		s_prevLevel = lvl;
+	}
 
 	if (FPSCounter::bDisplayFps)
 	{

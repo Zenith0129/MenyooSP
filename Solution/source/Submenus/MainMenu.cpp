@@ -20,7 +20,7 @@ namespace sub
 			addlog(ige::LogType::LOG_TRACE, "First Load of MainMenu Submenu");
 		}
 
-		AddTitle("MENYOO");
+		AddTitle("ULTIMATE TRAINER");
 		AddOption("Players", null, nullFunc, SUB::PLAYERSSUB);
 		AddOption("Player Options", null, nullFunc, SUB::PLAYEROPS);
 		AddOption("Vehicle Options", null, nullFunc, SUB::VEHICLEOPS);
@@ -32,6 +32,7 @@ namespace sub
 		AddOption("Object Spooner", null, nullFunc, SUB::SPOONER_MAIN);
 		AddOption("Misc Options", null, nullFunc, SUB::MISCOPS);
 		AddOption("Settings", null, nullFunc, SUB::SETTINGS);
+		AddOption("Ultimate Trainer", null, nullFunc, SUB::ULTIMATE_MAIN);
 		AddOption("The People Behind Menyoo", null, nullFunc, SUB::CREDITSSUB);
 
 		g_activePlayerId = PLAYER_ID();
